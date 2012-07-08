@@ -21,3 +21,14 @@ Additionally, concepts like physics, collision detection, or even
 map loading might be a bit hard for the students to grasp, so I
 am planning on writing small Lua libraries for these ahead of time
 for students to use.
+
+
+## Who is this geared for?
+
+The examples in here, and the guide itself, is geared for children
+and teenagers. Generally, younger-people with little to no programming
+experience.
+
+As such, this guide will not contain the secrets of the universe
+or anything *too* fancy. It is mainly meant as a way to get kids
+familiar with basic programming concepts, up to probably functions.
