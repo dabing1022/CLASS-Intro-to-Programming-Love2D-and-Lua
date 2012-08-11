@@ -32,3 +32,7 @@ experience.
 As such, this guide will not contain the secrets of the universe
 or anything *too* fancy. It is mainly meant as a way to get kids
 familiar with basic programming concepts, up to probably functions.
+
+
+## License?
+M.I.T. License
