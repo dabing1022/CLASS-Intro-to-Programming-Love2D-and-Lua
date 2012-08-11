@@ -30,9 +30,9 @@
 10. Lua: Tables
 11. Exercise: Fix program so that Player, NPC, and Item are stored in Tables.
 12. What does this mean? Why do this?
-    a. Think of it as explicitly saying “this belongs to...”
-    b. New set of variables within an object
-    c. Can pass around the object instead of the variables
+a. Think of it as explicitly saying “this belongs to...”
+b. New set of variables within an object
+c. Can pass around the object instead of the variables
 13. Conceptualizing verbs as functionality (“Move”, “Attack”, etc.)
 14. Lua: Functions
 15. Exercise: Creating MOVE functions, etc.
