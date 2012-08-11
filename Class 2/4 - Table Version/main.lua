@@ -5,83 +5,92 @@
 
 require "collision"
 
+player = {
+    X = 800 / 2,
+    Y = 600 / 2,
+    Speed = 0.5,
+    Score = 0
+}
+
+npc = {
+    X = 200,
+    Y = 200,
+    Speed = 0.1,
+    Score = 0
+}
+
+item = {
+    X = 500,
+    Y = 500
+}
+
 function love.load()
     -- Player
-    playerImage = love.graphics.newImage( "Cat.png" )
-    playerX = 800 / 2
-    playerY = 600 / 2
-    playerSpeed = 0.5
-    playerScore = 0
+    player.Image = love.graphics.newImage( "Cat.png" )
     
     -- NPC
-    npcImage = love.graphics.newImage( "BlueCat.png" )
-    npcX = 200
-    npcY = 200
-    npcSpeed = 0.1
-    npcScore = 0
+    npc.Image = love.graphics.newImage( "BlueCat.png" )
     
     -- Item
-    itemImage = love.graphics.newImage( "Gem.png" )
-    itemX = 500
-    itemY = 500
+    item.Image = love.graphics.newImage( "Gem.png" )
 end
 
 function love.update()
     -- Move Player with Keyboard
     if ( love.keyboard.isDown( "up" ) ) then
-        playerY = playerY - playerSpeed
+        player.Y = player.Y - player.Speed
     elseif ( love.keyboard.isDown( "down" ) ) then
-        playerY = playerY + playerSpeed
+        player.Y = player.Y + player.Speed
     end
     
     if ( love.keyboard.isDown( "left" ) ) then
-        playerX = playerX - playerSpeed
+        player.X = player.X - player.Speed
     elseif ( love.keyboard.isDown( "right" ) ) then
-        playerX = playerX + playerSpeed
+        player.X = player.X + player.Speed
     end
     
     -- NPC Move towards item
-    if ( npcX < itemX ) then
-        npcX = npcX + npcSpeed
-    elseif ( npcX > itemX ) then
-        npcX = npcX - npcSpeed
+    if ( npc.X < item.X ) then
+        npc.X = npc.X + npc.Speed
+    elseif ( npc.X > item.X ) then
+        npc.X = npc.X - npc.Speed
     end
     
-    if ( npcY < itemY ) then
-        npcY = npcY + npcSpeed
-    elseif ( npcY > itemY ) then
-        npcY = npcY - npcSpeed
+    if ( npc.Y < item.Y ) then
+        npc.Y = npc.Y + npc.Speed
+    elseif ( npc.Y > item.Y ) then
+        npc.Y = npc.Y - npc.Speed
     end
     
     -- Check collision between Player and Item
-    if ( collision( playerX, playerY, itemX, itemY ) ) then
-        playerScore = playerScore + 1
+    if ( collision( player.X, player.Y, item.X, item.Y ) ) then
+        player.Score = player.Score + 1
         -- New Coordinates for item
-        itemX = math.random( 0, 700 )
-        itemY = math.random( 0, 500 )
+        item.X = math.random( 0, 700 )
+        item.Y = math.random( 0, 500 )
     end
     
     -- Check collision between NPC and Item
-    if ( collision( npcX, npcY, itemX, itemY ) ) then
-        npcScore = npcScore + 1 
+    if ( collision( npc.X, npc.Y, item.X, item.Y ) ) then
+        npc.Score = npc.Score + 1 
         -- New Coordinates for item - Notice how this is duplicate code
-        itemX = math.random( 0, 700 )
-        itemY = math.random( 0, 500 )
+        item.X = math.random( 0, 700 )
+        item.Y = math.random( 0, 500 )
     end
 end
 
 function love.draw()
     -- Draw characters & item
-    love.graphics.draw( playerImage,    playerX,    playerY )
-    love.graphics.draw( npcImage,       npcX,       npcY )
-    love.graphics.draw( itemImage,      itemX,      itemY )
+    love.graphics.draw( player.Image,    player.X,    player.Y )
+    love.graphics.draw( npc.Image,       npc.X,       npc.Y )
+    love.graphics.draw( item.Image,      item.X,      item.Y )
     
     -- Draw the scores
     love.graphics.print( "Player score: ", 0, 0 )
-    love.graphics.print( playerScore, 0, 10 )
+    love.graphics.print( player.Score, 0, 10 )
     
     love.graphics.print( "NPC score: ", 700, 0 )
-    love.graphics.print( npcScore, 700, 10 )
+    love.graphics.print( npc.Score, 700, 10 )
 end
 
 
