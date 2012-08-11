@@ -3,7 +3,7 @@
 -- (c) Rachel J. Morris, 2012
 -- zlib license
 
-require "collisionTables"
+require "collision"
 
 player = {
     X = 800 / 2,
@@ -63,7 +63,7 @@ function love.update()
     end
     
     -- Check collision between Player and Item
-    if ( collision( player, item ) ) then
+    if ( collision( player.X, player.Y, item.X, item.Y ) ) then
         player.Score = player.Score + 1
         -- New Coordinates for item
         item.X = math.random( 0, 700 )
@@ -71,7 +71,7 @@ function love.update()
     end
     
     -- Check collision between NPC and Item
-    if ( collision( npc, item ) ) then
+    if ( collision( npc.X, npc.Y, item.X, item.Y ) ) then
         npc.Score = npc.Score + 1 
         -- New Coordinates for item - Notice how this is duplicate code
         item.X = math.random( 0, 700 )
