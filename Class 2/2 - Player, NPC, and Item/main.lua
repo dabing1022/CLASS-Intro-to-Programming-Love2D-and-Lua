@@ -1,15 +1,24 @@
+-- Class 2 Program 2
+-- http://www.moosader.com/resources/tutorials/love-lua/1
+-- (c) Rachel J. Morris, 2012
+-- zlib license
+
+require "collision"
+
 function love.load()
     -- Player
     playerImage = love.graphics.newImage( "Cat.png" )
     playerX = 800 / 2
     playerY = 600 / 2
     playerSpeed = 0.5
+    playerScore = 0
     
     -- NPC
     npcImage = love.graphics.newImage( "BlueCat.png" )
     npcX = 200
     npcY = 200
-    npcSpeed = 0.5
+    npcSpeed = 0.1
+    npcScore = 0
     
     -- Item
     itemImage = love.graphics.newImage( "Gem.png" )
@@ -31,26 +40,48 @@ function love.update()
         playerX = playerX + playerSpeed
     end
     
-    -- NPC Move randomly
-    moveChoice = math.random( 0, 3 )
-    if ( moveChoice == 0 ) then
-        npcY = npcY - npcSpeed
-    elseif ( moveChoice == 1 )  then
-        npcY = npcY + npcSpeed
-    elseif ( moveChoice == 2 ) then
-        npcX = npcX - npcSpeed
-    else
+    -- NPC Move towards item
+    if ( npcX < itemX ) then
         npcX = npcX + npcSpeed
+    elseif ( npcX > itemX ) then
+        npcX = npcX - npcSpeed
+    end
+    
+    if ( npcY < itemY ) then
+        npcY = npcY + npcSpeed
+    elseif ( npcY > itemY ) then
+        npcY = npcY - npcSpeed
+    end
+    
+    -- Check collision between Player and Item
+    if ( collision( playerX, playerY, itemX, itemY ) ) then
+        playerScore = playerScore + 1
+        -- New Coordinates for item
+        itemX = math.random( 0, 700 )
+        itemY = math.random( 0, 500 )
+    end
+    
+    -- Check collision between NPC and Item
+    if ( collision( npcX, npcY, itemX, itemY ) ) then
+        npcScore = npcScore + 1 
+        -- New Coordinates for item - Notice how this is duplicate code
+        itemX = math.random( 0, 700 )
+        itemY = math.random( 0, 500 )
     end
 end
 
 function love.draw()
+    -- Draw characters & item
     love.graphics.draw( playerImage,    playerX,    playerY )
     love.graphics.draw( npcImage,       npcX,       npcY )
     love.graphics.draw( itemImage,      itemX,      itemY )
+    
+    -- Draw the scores
+    love.graphics.print( "Player score: ", 0, 0 )
+    love.graphics.print( playerScore, 0, 10 )
+    
+    love.graphics.print( "NPC score: ", 700, 0 )
+    love.graphics.print( npcScore, 700, 10 )
 end
 
 
-function iscollision( x1, y1, x2, y2 )
-
-end
