@@ -1,4 +1,4 @@
--- Class 2 Program 2
+-- Class 2 Program 3
 -- http://www.moosader.com/resources/tutorials/love-lua/1
 -- (c) Rachel J. Morris, 2012
 -- zlib license
