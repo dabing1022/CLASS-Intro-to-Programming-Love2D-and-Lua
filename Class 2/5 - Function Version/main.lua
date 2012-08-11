@@ -1,42 +1,20 @@
--- Class 2 Program 4
+-- Class 2 Program 5
 -- http://www.moosader.com/resources/tutorials/love-lua/1
 -- (c) Rachel J. Morris, 2012
 -- zlib license
 
-require "collision"
+require "collisionTables"
 
+---------------------------
+-- PLAYER
+---------------------------
 player = {
     X = 800 / 2,
     Y = 600 / 2,
     Speed = 0.5,
     Score = 0
 }
-
-npc = {
-    X = 200,
-    Y = 200,
-    Speed = 0.1,
-    Score = 0
-}
-
-item = {
-    X = 500,
-    Y = 500
-}
-
-function love.load()
-    -- Player
-    player.Image = love.graphics.newImage( "Cat.png" )
-    
-    -- NPC
-    npc.Image = love.graphics.newImage( "BlueCat.png" )
-    
-    -- Item
-    item.Image = love.graphics.newImage( "Gem.png" )
-end
-
-function love.update()
-    -- Move Player with Keyboard
+function player:Move()
     if ( love.keyboard.isDown( "up" ) ) then
         player.Y = player.Y - player.Speed
     elseif ( love.keyboard.isDown( "down" ) ) then
@@ -48,8 +26,18 @@ function love.update()
     elseif ( love.keyboard.isDown( "right" ) ) then
         player.X = player.X + player.Speed
     end
-    
-    -- NPC Move towards item
+end -- end of player:Move()
+
+---------------------------
+-- NPC
+---------------------------
+npc = {
+    X = 200,
+    Y = 200,
+    Speed = 0.1,
+    Score = 0
+}
+function npc:Move()
     if ( npc.X < item.X ) then
         npc.X = npc.X + npc.Speed
     elseif ( npc.X > item.X ) then
@@ -61,21 +49,45 @@ function love.update()
     elseif ( npc.Y > item.Y ) then
         npc.Y = npc.Y - npc.Speed
     end
+end -- end of npc:Move()
+
+---------------------------
+-- ITEM
+---------------------------
+item = {
+    X = 500,
+    Y = 500
+}
+function item:Move()
+    item.X = math.random( 0, 700 )
+    item.Y = math.random( 0, 500 )
+end -- end of item:Move()
+
+---------------------------
+-- PROGRAM
+---------------------------
+function love.load()
+    player.Image = love.graphics.newImage( "Cat.png" )
+    npc.Image = love.graphics.newImage( "BlueCat.png" )
+    item.Image = love.graphics.newImage( "Gem.png" )
+end
+
+function love.update()
+    player:Move()    
+    npc:Move()
     
     -- Check collision between Player and Item
-    if ( collision( player.X, player.Y, item.X, item.Y ) ) then
+    if ( collision( player, item ) ) then
         player.Score = player.Score + 1
         -- New Coordinates for item
-        item.X = math.random( 0, 700 )
-        item.Y = math.random( 0, 500 )
+        item:Move()
     end
     
     -- Check collision between NPC and Item
-    if ( collision( npc.X, npc.Y, item.X, item.Y ) ) then
+    if ( collision( npc, item ) ) then
         npc.Score = npc.Score + 1 
         -- New Coordinates for item - Notice how this is duplicate code
-        item.X = math.random( 0, 700 )
-        item.Y = math.random( 0, 500 )
+        item:Move()
     end
 end
 
