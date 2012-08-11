@@ -1,0 +1,1 @@
+Paddle image drawn by Phillip Kilgore
