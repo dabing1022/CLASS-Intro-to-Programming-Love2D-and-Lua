@@ -11,11 +11,7 @@ function love.load()
 	SetupMap()
 end
 
-function love.update()
-	if ( love.mouse.isDown( "l" ) ) then
-		DrawTile()
-	end
-	
+function love.update()	
 	-- Adjust offset
 	if ( love.keyboard.isDown( "left" ) ) then
 		viewOffset.x = viewOffset.x - 5
@@ -31,20 +27,12 @@ function love.update()
 	GetBrush()
 	CheckUndoLast()
 	UpdateEditor()
+    CheckForDraw()
 end
 
 function love.draw()
-	DrawEditor()
+    DrawBackground()
 	DrawMap()
+	DrawEditor()
 	DrawPhantomCursor()
-	
-	love.graphics.print( "Current Brush: " .. currentBrushName, 0, 0 )
-	love.graphics.print( "Total Tiles: " .. #map, 0, 15 )
-	love.graphics.print( "X Offset: " .. viewOffset.x, 0, 30 )
-	love.graphics.print( "Y Offset: " .. viewOffset.y, 0, 45 )
-	
-	love.graphics.print( "Press 1 through 7 to choose a tile", 400, 0 )
-	love.graphics.print( "Press 'Z' to undo tiles", 400, 15 )
-	love.graphics.print( "Press 'S' to save the map", 400, 30 )
-	love.graphics.print( "Use the arrow keys to scroll through the map", 400, 45 )
 end

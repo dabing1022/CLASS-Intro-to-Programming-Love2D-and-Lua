@@ -11,9 +11,45 @@ function UpdateEditor()
 	end
 end
 
-function DrawEditor()
+function DrawBackground()
 	love.graphics.setColor( 131, 164, 214, 255 )
-	love.graphics.rectangle( "fill", 0, 0, 800, 600 )
+	love.graphics.rectangle( "fill", 0, 100, 800, 600 )
+end
+
+function DrawEditor()
+    -- HUD
+	love.graphics.setColor( 0, 0, 0, 255 )
+	love.graphics.rectangle( "fill", 0, 0, 800, 100 )
+	
+	love.graphics.setColor( 153, 176, 209, 255 )
+	love.graphics.print( "Current Brush: " .. currentBrushName, 0, 0 )
+	love.graphics.print( "Total Tiles: " .. #map, 0, 15 )
+	love.graphics.print( "X Offset: " .. viewOffset.x, 0, 30 )
+	love.graphics.print( "Y Offset: " .. viewOffset.y, 0, 45 )
+	
+	love.graphics.print( "Press 1 through 7 to choose a tile", 400, 0 )
+	love.graphics.print( "Press 'Z' to undo tiles", 400, 15 )
+	love.graphics.print( "Press 'S' to save the map", 400, 30 )
+	love.graphics.print( "Use the arrow keys to scroll through the map", 400, 45 )
+    
+    love.graphics.print( "1: Bush", 0, 80 )
+    love.graphics.print( "2: Tree", 100, 80 )
+    love.graphics.print( "3: Gold", 200, 80 )
+    love.graphics.print( "4: Sand", 300, 80 )
+    love.graphics.print( "5: Blue House", 400, 80 )
+    love.graphics.print( "6: Tan House", 500, 80 )
+    love.graphics.print( "7: Red House", 600, 80 )
+    
+    -- Draw the coordinate overlay
+	love.graphics.setColor( 255, 255, 255, 255 )
+    for x = 0, 800*2/32, 5 do
+        love.graphics.print( x, x*32 - viewOffset.x, 100 )
+    end
+    for y = 0, 600*2/32, 5 do
+        if ( y*32 - viewOffset.y >= 100 ) then
+            love.graphics.print( y, 0, y*32 - viewOffset.y )
+        end
+    end
 end
 
 function DrawPhantomCursor()
@@ -53,22 +89,24 @@ end
 function CheckUndoLast()
 	if ( mouseDownCounted <= 0 ) then
 		if ( love.keyboard.isDown( "z" ) ) then
-			table.remove( map )
+            RemoveLastTile()
 		end
-		mouseDownCounted = 5
+		mouseDownCounted = 3
 	end
 end
 
 function DrawTile()
 	if ( mouseDownCounted <= 0 ) then
-		newTile = {
-			x = love.mouse.getX() - currentBrush.width / 2 + viewOffset.x,
-			y = love.mouse.getY() - currentBrush.height / 2 + viewOffset.y,
-			tile = currentBrush
-		}
-		
-		table.insert( map, newTile )
-		mouseDownCounted = 5
+        AppendTileToMap( love.mouse.getX() - currentBrush.width / 2 + viewOffset.x,
+            love.mouse.getY() - currentBrush.height / 2 + viewOffset.y,
+            currentBrush )
+		mouseDownCounted = 3
+	end
+end
+
+function CheckForDraw()
+	if ( love.mouse.isDown( "l" ) ) then
+		DrawTile()
 	end
 end
 

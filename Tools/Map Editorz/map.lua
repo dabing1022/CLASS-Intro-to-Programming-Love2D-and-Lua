@@ -3,21 +3,32 @@ require "tileset"
 map = {
 }
 
-maxX = 800*2
-maxY = 600*2
+mapProperties = {
+    maximum = {
+        x = 800*2,
+        y = 800*2
+    }
+}
 
 function SetupMap()
 	for y = 0, 600/32 * 2 do
-		for x = 0, 800/32 * 2 do
-			newTile = {
-				x = math.floor(x) * 32,
-				y = math.floor(y) * 32,
-				tile = tileset.grass
-			}
-			
-			table.insert( map, newTile )
+		for x = 0, 800/32 * 2 do			
+			AppendTileToMap( math.floor(x) * 32, math.floor(y) * 32, tileset.grass )
 		end
 	end
+end
+
+function AppendTileToMap( newx, newy, tileType )
+    newTile = {
+        tile = tileType,
+        x = newx,
+        y = newy
+    }
+    table.insert( map, newTile )
+end
+
+function RemoveLastTile()
+    table.remove( map )
 end
 
 function DrawMap()
