@@ -1,19 +1,22 @@
 require "editor"
 
-function GetUserInput()
-    CheckForDraw()
-    CheckForUndoLast()
-    CheckForBrushChange()
-    CheckForChangeOffset()
+userinput = {}
+
+function userinput:GetInput()
+    self:CheckForPaint()
+    self:CheckForUndoLast()
+    self:CheckForBrushChange()
+    self:CheckForChangeOffset()
+    self:CheckForSave()
 end
 
-function CheckForDraw()
+function userinput:CheckForPaint()
 	if ( love.mouse.isDown( "l" ) ) then
 		editor:PaintTile()
 	end
 end
 
-function CheckForUndoLast()
+function userinput:CheckForUndoLast()
 	if ( editor.mouseCooldown <= 0 ) then
 		if ( love.keyboard.isDown( "z" ) ) then
             RemoveLastTile()
@@ -22,7 +25,7 @@ function CheckForUndoLast()
 	end
 end
 
-function CheckForChangeOffset()
+function userinput:CheckForChangeOffset()
 	-- Adjust offset
 	if ( love.keyboard.isDown( "left" ) ) then
 		viewOffset.x = viewOffset.x - 5
@@ -36,7 +39,7 @@ function CheckForChangeOffset()
 	end
 end
 
-function CheckForBrushChange()
+function userinput:CheckForBrushChange()
 	if ( love.keyboard.isDown( "1" ) ) then
 		editor.currentBrush.tile = tileset.bush
 		editor.currentBrush.name = "Bush"
@@ -65,4 +68,10 @@ function CheckForBrushChange()
 		editor.currentBrush.tile = tileset.redHouse
 		editor.currentBrush.name = "Red House"
 	end
+end
+
+function userinput:CheckForSave()
+    if ( love.keyboard.isDown( "s" ) ) then
+        SaveMap()
+    end
 end

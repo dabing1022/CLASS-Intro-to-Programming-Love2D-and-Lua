@@ -13,7 +13,7 @@ function love.load()
 end
 
 function love.update()	
-    GetUserInput()
+    userinput:GetInput()
 	editor:Update()
 end
 

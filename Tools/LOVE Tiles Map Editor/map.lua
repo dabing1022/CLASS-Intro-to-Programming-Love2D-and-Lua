@@ -7,7 +7,8 @@ mapProperties = {
     maximum = {
         x = 800*2,
         y = 800*2
-    }
+    },
+    noUnsavedChanges = false
 }
 
 function SetupMap()
@@ -25,6 +26,7 @@ function AppendTileToMap( newx, newy, tileType )
         y = newy
     }
     table.insert( map, newTile )
+    mapProperties.noUnsavedChanges = falseeex
 end
 
 function RemoveLastTile()
@@ -37,3 +39,18 @@ function DrawMap()
 		love.graphics.draw( mapTile.tile.image, mapTile.x - viewOffset.x, mapTile.y - viewOffset.y )
 	end
 end	
+
+function SaveMap()
+    filename = "Map.txt" 
+    file = io.open( filename, "w" )
+    
+	for index, mapTile in pairs( map ) do
+        file:write( "\ntile " .. index .. " x " .. mapTile.x .. " y " .. mapTile.y .. " tile " .. mapTile.tile.name )
+	end
+    
+    file:close()
+    
+    mapProperties.noUnsavedChanges = true
+end
+
+

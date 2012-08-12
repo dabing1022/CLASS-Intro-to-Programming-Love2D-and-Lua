@@ -36,6 +36,15 @@ function editor:DrawHUD()
 	love.graphics.print( "Press 'S' to save the map", 400, 30 )
 	love.graphics.print( "Use the arrow keys to scroll through the map", 400, 45 )
     
+    if ( mapProperties.noUnsavedChanges == true ) then
+        love.graphics.setColor( 0, 255, 0, 255 )
+        love.graphics.print( "No unsaved changes", 0, 60 )
+    else
+        love.graphics.setColor( 255, 0, 0, 255 )
+        love.graphics.print( "UNSAVED CHANGES", 0, 60 )
+    end
+	love.graphics.setColor( 153, 176, 209, 255 )
+    
     love.graphics.print( "1: Bush", 0, 80 )
     love.graphics.print( "2: Tree", 100, 80 )
     love.graphics.print( "3: Gold", 200, 80 )
