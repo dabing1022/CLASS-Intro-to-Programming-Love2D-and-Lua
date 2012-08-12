@@ -1,28 +1,32 @@
 require "tileset"
 require "map"
 
-currentBrush = tileset.blueHouse
-currentBrushName = "Blue House"
-mouseDownCounted = 0
+editor = {
+    currentBrush = {
+        tile = tileset.blueHouse,
+        name = "Blue House"
+    } ,
+    mouseCooldown = 0
+}
 
-function UpdateEditor()
-	if ( mouseDownCounted > 0 ) then
-		mouseDownCounted = mouseDownCounted - 0.1
+function editor:Update()
+	if ( editor.mouseCooldown > 0 ) then
+		editor.mouseCooldown = editor.mouseCooldown - 0.1
 	end
 end
 
-function DrawBackground()
+function editor:DrawBackground()
 	love.graphics.setColor( 131, 164, 214, 255 )
 	love.graphics.rectangle( "fill", 0, 100, 800, 600 )
 end
 
-function DrawEditor()
+function editor:DrawHUD()
     -- HUD
 	love.graphics.setColor( 0, 0, 0, 255 )
 	love.graphics.rectangle( "fill", 0, 0, 800, 100 )
 	
 	love.graphics.setColor( 153, 176, 209, 255 )
-	love.graphics.print( "Current Brush: " .. currentBrushName, 0, 0 )
+	love.graphics.print( "Current Brush: " .. editor.currentBrush.name, 0, 0 )
 	love.graphics.print( "Total Tiles: " .. #map, 0, 15 )
 	love.graphics.print( "X Offset: " .. viewOffset.x, 0, 30 )
 	love.graphics.print( "Y Offset: " .. viewOffset.y, 0, 45 )
@@ -52,61 +56,22 @@ function DrawEditor()
     end
 end
 
-function DrawPhantomCursor()
+function editor:DrawPhantomCursor()
 	-- Highlight tile
 	love.graphics.setColor( 255, 255, 255, 100 )
-	love.graphics.draw( currentBrush.image,
-		love.mouse.getX() - currentBrush.width/2,
-		love.mouse.getY() - currentBrush.height/2 )
+	love.graphics.draw( editor.currentBrush.tile.image,
+		love.mouse.getX() - editor.currentBrush.tile.width/2,
+		love.mouse.getY() - editor.currentBrush.tile.height/2 )
 	love.graphics.setColor( 255, 255, 255, 255 )
 end
 
-function GetBrush()
-	if ( love.keyboard.isDown( "1" ) ) then
-		currentBrush = tileset.bush
-		currentBrushName = "Bush"
-	elseif ( love.keyboard.isDown( "2" ) ) then
-		currentBrush = tileset.tree
-		currentBrushName = "Tree"
-	elseif ( love.keyboard.isDown( "3" ) ) then
-		currentBrush = tileset.gold
-		currentBrushName = "Gold"
-	elseif ( love.keyboard.isDown( "4" ) ) then
-		currentBrush = tileset.sand
-		currentBrushName = "Sand"
-	elseif ( love.keyboard.isDown( "5" ) ) then
-		currentBrush = tileset.blueHouse
-		currentBrushName = "Blue House"
-	elseif ( love.keyboard.isDown( "6" ) ) then
-		currentBrush = tileset.tanHouse
-		currentBrushName = "Tan House"
-	elseif ( love.keyboard.isDown( "7" ) ) then
-		currentBrush = tileset.redHouse
-		currentBrushName = "Red House"
-	end
-end
-
-function CheckUndoLast()
-	if ( mouseDownCounted <= 0 ) then
-		if ( love.keyboard.isDown( "z" ) ) then
-            RemoveLastTile()
-		end
-		mouseDownCounted = 3
-	end
-end
-
-function DrawTile()
-	if ( mouseDownCounted <= 0 ) then
-        AppendTileToMap( love.mouse.getX() - currentBrush.width / 2 + viewOffset.x,
-            love.mouse.getY() - currentBrush.height / 2 + viewOffset.y,
-            currentBrush )
-		mouseDownCounted = 3
-	end
-end
-
-function CheckForDraw()
-	if ( love.mouse.isDown( "l" ) ) then
-		DrawTile()
+function editor:PaintTile()
+	if ( editor.mouseCooldown <= 0 ) then
+        AppendTileToMap( 
+            love.mouse.getX() - editor.currentBrush.tile.width / 2 + viewOffset.x,
+            love.mouse.getY() - editor.currentBrush.tile.height / 2 + viewOffset.y,
+            editor.currentBrush.tile )
+		editor.mouseCooldown = 3
 	end
 end
 
