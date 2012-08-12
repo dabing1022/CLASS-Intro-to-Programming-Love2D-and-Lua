@@ -38,18 +38,25 @@ PaddleB = {
     score = 0
 }
 function PaddleB:Move()
-    if ( love.keyboard.isDown( "a" ) ) then
-        PaddleB.x = PaddleB.x - PaddleB.speed
-    elseif ( love.keyboard.isDown( "d" ) ) then
-        PaddleB.x = PaddleB.x + PaddleB.speed
-    end
+--    if ( love.keyboard.isDown( "a" ) ) then
+--        PaddleB.x = PaddleB.x - PaddleB.speed
+--    elseif ( love.keyboard.isDown( "d" ) ) then
+--        PaddleB.x = PaddleB.x + PaddleB.speed
+--    end
     
-    if ( love.keyboard.isDown( "w" ) ) then
-        PaddleB.y = 600 - 64 - 16
-    else
-        PaddleB.y = 600 - 64
+    if ( PongBall.y > 300 ) then       
+        if ( PaddleB.x < PongBall.x ) then
+            PaddleB.x = PaddleB.x + PaddleB.speed
+        elseif ( PaddleA.x > PongBall.x ) then
+            PaddleB.x = PaddleB.x - PaddleB.speed
+        end
+        
+        if ( love.keyboard.isDown( "w" ) ) then
+            PaddleB.y = 600 - 64 - 16
+        else
+            PaddleB.y = 600 - 64
+        end
     end
-    
     -- Don't go off the screen!
     if ( PaddleB.x < 0 ) then
         PaddleB.x = 0

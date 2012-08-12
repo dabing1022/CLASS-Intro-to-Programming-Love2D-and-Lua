@@ -67,7 +67,7 @@ function PongBall:ScreenCollision( PaddleA, PaddleB )
 end
 
 function PongBall:Reset()
-    PongBall.x = 800/2
+    PongBall.x = math.random( 50, 750 )
     PongBall.y = 600/2
     PongBall.velocityX = 0
 end
