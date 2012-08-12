@@ -9,8 +9,7 @@ player = {
     height = 64,
     isDown = false,
     hits = 0,
-    misses = 0,
-    hitAlready = false
+    misses = 0
 }
 
 function player:Setup()
@@ -27,27 +26,23 @@ function player:Update()
     -- Check whether mouse button is hit
     -- Get the correct frame for the filmstrip
     if ( love.mouse.isDown( "l" ) ) then
+        -- Left mouse button is down
         self.isDown = true
         self.imageQuad:setViewport( self.width, 0, self.width, self.height )
-        
         -- Check to see if you're clicking a mole!
-        if ( self.hitAlready == false ) then
-            if ( CheckMoleHits() == true ) then
-                player.hits = player.hits + 1
-            end
-            -- Only count one hit per click
-            self.hitAlready = true 
-        end
-        
+        if ( CheckMoleHits() == true ) then
+            player.hits = player.hits + 1
+        end        
     else
+        -- Left mouse button is not down
         self.isDown = false
-        self.hitAlready = false
         self.imageQuad:setViewport( 0, 0, self.width, self.height )
     end  
       
     player.x = love.mouse.getX() - 32
     player.y = love.mouse.getY() - 32
     
+    -- Check to see if player has the winning score
     if ( playerWins == false and player.hits == hitsToWin ) then
         playerWins = true
     end
@@ -55,7 +50,4 @@ end
 
 function player:Draw()
     love.graphics.drawq( self.image, self.imageQuad, self.x, self.y )
-    
-    love.graphics.setColor( 0, 0, 255, 255 )
-    love.graphics.setColor( 255, 255, 255, 255 )
 end
