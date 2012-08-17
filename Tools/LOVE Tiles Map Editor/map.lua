@@ -45,7 +45,7 @@ function SaveMap()
     file = io.open( filename, "w" )
     
 	for index, mapTile in pairs( map ) do
-        file:write( "\ntile " .. index .. " x " .. mapTile.x .. " y " .. mapTile.y .. " tile " .. mapTile.tile.name )
+        file:write( "\ntile " .. index .. " x " .. mapTile.x .. " y " .. mapTile.y .. " tile " .. mapTile.tile.name .. " end" )
 	end
     
     file:close()

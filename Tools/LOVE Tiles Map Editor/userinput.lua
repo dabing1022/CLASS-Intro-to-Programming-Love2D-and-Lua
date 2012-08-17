@@ -21,7 +21,7 @@ function userinput:CheckForUndoLast()
 		if ( love.keyboard.isDown( "z" ) ) then
             RemoveLastTile()
 		end
-		editor.mouseCooldown = 3
+		editor.mouseCooldown = editor.mouseCooldownMax
 	end
 end
 

@@ -6,7 +6,8 @@ editor = {
         tile = tileset.blueHouse,
         name = "Blue House"
     } ,
-    mouseCooldown = 0
+    mouseCooldown = 0,
+    mouseCooldownMax = 1
 }
 
 function editor:Update()
@@ -80,7 +81,7 @@ function editor:PaintTile()
             love.mouse.getX() - editor.currentBrush.tile.width / 2 + viewOffset.x,
             love.mouse.getY() - editor.currentBrush.tile.height / 2 + viewOffset.y,
             editor.currentBrush.tile )
-		editor.mouseCooldown = 3
+		editor.mouseCooldown = editor.mouseCooldownMax
 	end
 end
 
