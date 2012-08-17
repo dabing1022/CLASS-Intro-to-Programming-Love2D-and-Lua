@@ -1,3 +1,9 @@
+-- LOVE Tiles
+-- Really simple map editor for my LOVE/Lua class
+-- http://www.moosader.com/resources/tutorials/love-lua/1
+-- (c) Rachel J. Morris, 2012
+-- zlib license
+
 require "editor"
 
 userinput = {}

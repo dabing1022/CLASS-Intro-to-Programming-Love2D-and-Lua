@@ -1,17 +1,25 @@
+-- Class 3 Program 3
+-- http://www.moosader.com/resources/tutorials/love-lua/1
+-- (c) Rachel J. Morris, 2012
+-- zlib license
 
-map = { }
+require "GeneratedMap.lua"
 
-function map:LoadMap()
-    filename = "Map.txt"
-    
-    mapFile = io.open( filename )
-    
-    line = mapFile.read( mapFile )
-    while line do
-        -- Grab a line
-        line = mapFile.read( mapFile )
-        -- Read the values of that line
-    end
-end
+mapProperties = {
+    maximum = {
+        x = 800*2,
+        y = 800*2
+    },
+}
 
-map:LoadMap()
+viewOffset = { 
+	x = 0,
+	y = 0
+}
+
+function DrawMap()
+	love.graphics.setColor( 255, 255, 255, 255 )
+	for index, mapTile in pairs( map ) do
+		love.graphics.draw( mapTile.tile.image, mapTile.x - viewOffset.x, mapTile.y - viewOffset.y )
+	end
+end	

@@ -1,3 +1,7 @@
+-- Class 3 Program 3
+-- http://www.moosader.com/resources/tutorials/love-lua/1
+-- (c) Rachel J. Morris, 2012
+-- zlib license
 
 -- Box-based collision detection
 -- Parameters are expected to have:
