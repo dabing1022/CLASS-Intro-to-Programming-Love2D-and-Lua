@@ -19,6 +19,14 @@ function SetupMap()
 	end
 end
 
+function ClearMap()
+    for idx in pairs (map) do
+        map[idx] = nil
+    end
+    
+    SetupMap()
+end
+
 function AppendTileToMap( newx, newy, tileType )
     newTile = {
         tile = tileType,
@@ -40,16 +48,39 @@ function DrawMap()
 	end
 end	
 
+-- Map format:
+-- map = {
+--      "0" = {
+--          "x" = mapTile.x,
+--          "y" = mapTile.y,
+--          "tile" = mapTile.tile.name
+--      }
+-- }
+
 function SaveMap()
-    filename = "Map.txt" 
+    filename = "GeneratedMap.lua" 
     file = io.open( filename, "w" )
     
+    file:write( "map = {") -- Beginning of generated map table
 	for index, mapTile in pairs( map ) do
-        file:write( "\ntile " .. index .. " x " .. mapTile.x .. " y " .. mapTile.y .. " tile " .. mapTile.tile.name .. " end" )
+        file:write( "\n" )
+        file:write( "   \"" .. index .. "\" = {" ) -- beginning of map[i]
+        file:write( "\n" )
+        file:write( "         \"x\" = " .. mapTile.x .. "," )
+        file:write( "\n" )
+        file:write( "         \"y\" = " .. mapTile.y .. "," )
+        file:write( "\n" )
+        file:write( "         \"tile\" = \"" .. mapTile.tile.name .. "\"" )
+        file:write( "\n" )
+        file:write( "   }" ) -- end of map[i]
+        if ( index ~= #map ) then
+            file:write(",") -- Elements are separated by commas
+        end
 	end
+    file:write( "\n" )
+    file:write( "}" ) -- end of map table
     
     file:close()
-    
     mapProperties.noUnsavedChanges = true
 end
 

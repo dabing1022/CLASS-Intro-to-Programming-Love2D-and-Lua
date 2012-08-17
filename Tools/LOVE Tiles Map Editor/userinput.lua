@@ -8,6 +8,7 @@ function userinput:GetInput()
     self:CheckForBrushChange()
     self:CheckForChangeOffset()
     self:CheckForSave()
+    self:CheckForClear()
 end
 
 function userinput:CheckForPaint()
@@ -73,5 +74,11 @@ end
 function userinput:CheckForSave()
     if ( love.keyboard.isDown( "s" ) ) then
         SaveMap()
+    end
+end
+
+function userinput:CheckForClear()
+    if ( love.keyboard.isDown( "escape" ) ) then
+        ClearMap()
     end
 end

@@ -1,6 +1,8 @@
 
+require "map"
 
 function love.load()
+    map:LoadMap()
 end
 
 function love.update()
