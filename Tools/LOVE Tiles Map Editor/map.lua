@@ -56,10 +56,10 @@ end
 
 -- Map format:
 -- map = {
---      "0" = {
---          "x" = mapTile.x,
---          "y" = mapTile.y,
---          "tile" = mapTile.tile.name
+--      tile0 = {
+--          x = mapTile.x,
+--          y = mapTile.y,
+--          tile = mapTile.tile.name
 --      }
 -- }
 
@@ -67,20 +67,25 @@ function SaveMap()
     filename = "GeneratedMap.lua" 
     file = io.open( filename, "w" )
     
+    count = 1
     file:write( "map = {") -- Beginning of generated map table
 	for index, mapTile in pairs( map ) do
-        file:write( "\n" )
-        file:write( "   \"" .. index .. "\" = {" ) -- beginning of map[i]
-        file:write( "\n" )
-        file:write( "         \"x\" = " .. mapTile.x .. "," )
-        file:write( "\n" )
-        file:write( "         \"y\" = " .. mapTile.y .. "," )
-        file:write( "\n" )
-        file:write( "         \"tile\" = \"" .. mapTile.tile.name .. "\"" )
-        file:write( "\n" )
-        file:write( "   }" ) -- end of map[i]
-        if ( index ~= #map ) then
-            file:write(",") -- Elements are separated by commas
+        -- Don't save grass tiles
+        if ( mapTile.tile.name ~= "Grass" ) then
+            file:write( "\n" )
+            file:write( "   tile" .. count .. " = {" ) -- beginning of map[i]
+            file:write( "\n" )
+            file:write( "       x = " .. mapTile.x .. "," )
+            file:write( "\n" )
+            file:write( "       y = " .. mapTile.y .. "," )
+            file:write( "\n" )
+            file:write( "       tile = \"" .. mapTile.tile.name .. "\"" )
+            file:write( "\n" )
+            file:write( "   }" ) -- end of map[i]
+            if ( index ~= #map ) then
+                file:write(",") -- Elements are separated by commas
+            end
+            count = count + 1
         end
 	end
     file:write( "\n" )

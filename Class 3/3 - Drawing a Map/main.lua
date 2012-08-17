@@ -5,11 +5,15 @@
 
 require "map"
 require "tileset"
+require "userinput"
 
 function love.load()
+    tileset:Setup()
+    SetupMap()
 end
 
 function love.update()
+    userinput:GetInput()
 end
 
 function love.draw()
