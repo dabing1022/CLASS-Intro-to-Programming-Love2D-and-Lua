@@ -37,7 +37,9 @@ function AppendTileToMap( newx, newy, tileType )
     newTile = {
         tile = tileType,
         x = newx,
-        y = newy
+        y = newy,
+        width = tileType.width,
+        height = tileType.height
     }
     table.insert( map, newTile )
     mapProperties.noUnsavedChanges = falseeex
@@ -59,6 +61,8 @@ end
 --      tile0 = {
 --          x = mapTile.x,
 --          y = mapTile.y,
+--          width = mapTile.width,
+--          height = mapTile.height,
 --          tile = mapTile.tile.name
 --      }
 -- }
@@ -78,6 +82,10 @@ function SaveMap()
             file:write( "       x = " .. mapTile.x .. "," )
             file:write( "\n" )
             file:write( "       y = " .. mapTile.y .. "," )
+            file:write( "\n" )
+            file:write( "       width = " .. mapTile.width .. "," )
+            file:write( "\n" )
+            file:write( "       height = " .. mapTile.height .. "," )
             file:write( "\n" )
             file:write( "       tile = \"" .. mapTile.tile.name .. "\"" )
             file:write( "\n" )

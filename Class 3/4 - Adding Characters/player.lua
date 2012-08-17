@@ -1,21 +1,26 @@
--- Class 3 Program 2
+-- Class 3 Program 4
 -- http://www.moosader.com/resources/tutorials/love-lua/1
 -- (c) Rachel J. Morris, 2012
 -- zlib license
 
 require "collision"
 
+viewOffset = { 
+	x = 0,
+	y = 0
+}
+
 player = {
-	x = 400,
+	x = 200,
 	y = 300,
 	width = 32,
 	height = 48,
 	direction = 0,
 	frame = 0,
-	speed = 0.5
+	speed = 1
 }
 function player:Setup()
-	self.image = love.graphics.newImage( "Ayne.png" )
+	self.image = love.graphics.newImage( "Images/Ayne.png" )
 	self.frameQuad = love.graphics.newQuad(
 		0, 0, -- Current frame position
 		self.width, self.height, -- Width/Height of a frame
@@ -56,14 +61,17 @@ function player:Move( xMovement, yMovement )
 	dummyPlayer.x = dummyPlayer.x + xMovement
 	dummyPlayer.y = dummyPlayer.y + yMovement
 	
-	if ( Collision( dummyPlayer, house ) == false ) then
+    -- Check collision between tiles on map
+	if ( MapCollision( self ) == false ) then
 		self.x = dummyPlayer.x
 		self.y = dummyPlayer.y
+        self:UpdateFrame()
+        UpdateScreenOffset()
 	end
 end
 
 function player:UpdateFrame()
-	self.frame = self.frame + 0.01
+	self.frame = self.frame + 0.1
 	if ( self.frame >= 4 ) then
 		self.frame = 0
 	end
@@ -77,5 +85,11 @@ function player:UpdateFrame()
 end
 
 function player:Draw()
-	love.graphics.drawq( self.image, self.frameQuad, self.x, self.y )
+	love.graphics.drawq( self.image, self.frameQuad, self.x - viewOffset.x, self.y - viewOffset.y )
+end
+
+function UpdateScreenOffset()
+    -- Player should be in the center of the screen
+    viewOffset.x = player.x + (player.width / 2) - (love.graphics.getWidth() / 2)
+    viewOffset.y = player.y + (player.height / 2) - (love.graphics.getHeight() / 2)
 end
