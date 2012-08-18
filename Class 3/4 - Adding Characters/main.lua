@@ -17,6 +17,7 @@ end
 
 function love.update()
     userinput:GetInput()
+    player:UpdateSword()
 end
 
 function love.draw()
@@ -25,5 +26,8 @@ function love.draw()
     
     love.graphics.print( love.graphics.getWidth(), 0, 0 )
     love.graphics.print( "OffsetX: " .. viewOffset.x, 0, 15 )
-    love.graphics.print( "PlayerX: " .. player.x, 0, 30 )
+    love.graphics.print( "Player Coordinates: " .. player.x .. ", " .. player.y, 0, 30 )
+    love.graphics.print( "Sword Coordinates: " .. player.sword.x .. ", " .. player.sword.y, 0, 45 )
+    love.graphics.print( "Sword Dimensions: " .. player.sword.width .. ", " .. player.sword.height, 0, 60 )
+    love.graphics.print( "Sword Life: " .. player.sword.life, 0, 75 )
 end

@@ -17,15 +17,35 @@ player = {
 	height = 48,
 	direction = 0,
 	frame = 0,
-	speed = 1
+	speed = 2,
+    sword = {
+        x = 0,
+        y = 0,
+        width = 32,
+        height = 32,
+        speed = 10,
+        direction = 0,
+        maxLifetime = 100,
+        life = 0
+    }
 }
+
 function player:Setup()
+    -- Ayne Graphics
 	self.image = love.graphics.newImage( "Images/Ayne.png" )
 	self.frameQuad = love.graphics.newQuad(
 		0, 0, -- Current frame position
 		self.width, self.height, -- Width/Height of a frame
 		self.image:getWidth(), self.image:getHeight() -- Width/Height of entire image
 	)
+    
+    -- Sword Graphics
+    self.sword.image = love.graphics.newImage( "Images/Sword.png" )
+    self.sword.frameQuad = love.graphics.newQuad(
+        0, 0, -- Current frame position
+        self.sword.width, self.sword.height,
+        self.sword.image:getWidth(), self.sword.image:getHeight()
+    )
 end
 
 function player:GetInput()
@@ -43,6 +63,11 @@ function player:GetInput()
 		self.direction = 3
 		self:Move( self.speed, 0 )
 	end
+    
+    if ( love.keyboard.isDown( " " ) ) then
+        -- Attack!
+        self:ThrowSword()
+    end
 end
 
 function player:Move( xMovement, yMovement )
@@ -66,6 +91,7 @@ function player:Move( xMovement, yMovement )
 		self.x = dummyPlayer.x
 		self.y = dummyPlayer.y
         self:UpdateFrame()
+        self:UpdateSword()
         UpdateScreenOffset()
     else
 	end
@@ -85,8 +111,43 @@ function player:UpdateFrame()
 	)
 end
 
+function player:UpdateSword()
+    if ( self.sword.life > 0 ) then
+        if ( self.sword.direction == 0 ) then           -- down
+            self.sword.y = self.sword.y + self.sword.speed
+        elseif ( self.sword.direction == 1 ) then   -- up
+            self.sword.y = self.sword.y - self.sword.speed
+        elseif ( self.sword.direction == 2 ) then   -- left
+            self.sword.x = self.sword.x - self.sword.speed
+        elseif ( self.sword.direction == 3 ) then   -- right
+            self.sword.x = self.sword.x + self.sword.speed
+        end
+        
+        self.sword.life = self.sword.life - 1
+    
+        self.sword.frameQuad:setViewport(
+            0, -- X coordinate on image
+            self.sword.direction * self.sword.height, -- Y coordinate on image
+            self.sword.width,
+            self.sword.height
+        )
+    end
+end
+
 function player:Draw()
 	love.graphics.drawq( self.image, self.frameQuad, self.x - viewOffset.x, self.y - viewOffset.y )
+    --if ( self.sword.life > 0 ) then
+        love.graphics.drawq( self.sword.image, self.sword.frameQuad, self.sword.x - viewOffset.x, self.sword.y - viewOffset.y )
+    --end
+end
+
+function player:ThrowSword()
+    if ( self.sword.life <= 0 ) then
+        self.sword.direction = self.direction
+        self.sword.x = self.x
+        self.sword.y = self.y
+        self.sword.life = self.sword.maxLifetime
+    end
 end
 
 function UpdateScreenOffset()
