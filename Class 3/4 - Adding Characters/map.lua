@@ -5,6 +5,7 @@
 
 require "GeneratedMap"
 require "tileset"
+require "player"
 
 -- This needs to be refactored!!
 mapProperties = {
@@ -72,6 +73,12 @@ end
 function DrawMap()
 	love.graphics.setColor( 255, 255, 255, 255 )
 	for index, mapTile in pairs( map ) do
-		love.graphics.draw( mapTile.image, mapTile.x - viewOffset.x, mapTile.y - viewOffset.y )
+        -- Only draw map if it's within the screen's viewable area
+        if ( mapTile.x > viewOffset.x - 32 and
+                mapTile.x < viewOffset.x + love.graphics.getWidth() and
+                mapTile.y > viewOffset.x - 32 and
+                mapTile.y < viewOffset.y + love.graphics.getHeight() ) then
+            love.graphics.draw( mapTile.image, mapTile.x - viewOffset.x, mapTile.y - viewOffset.y )
+        end
 	end
 end	
