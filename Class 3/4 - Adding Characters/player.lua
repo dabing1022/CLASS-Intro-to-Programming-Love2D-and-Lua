@@ -4,6 +4,7 @@
 -- zlib license
 
 require "collision"
+require "camera"
 
 viewOffset = { 
 	x = 0,
@@ -92,7 +93,6 @@ function player:Move( xMovement, yMovement )
 		self.y = dummyPlayer.y
         self:UpdateFrame()
         self:UpdateSword()
-        UpdateScreenOffset()
     else
 	end
 end
@@ -135,10 +135,10 @@ function player:UpdateSword()
 end
 
 function player:Draw()
-	love.graphics.drawq( self.image, self.frameQuad, self.x - viewOffset.x, self.y - viewOffset.y )
-    --if ( self.sword.life > 0 ) then
-        love.graphics.drawq( self.sword.image, self.sword.frameQuad, self.sword.x - viewOffset.x, self.sword.y - viewOffset.y )
-    --end
+	love.graphics.drawq( self.image, self.frameQuad, self.x - camera.x, self.y - camera.y )
+    if ( self.sword.life > 0 ) then
+        love.graphics.drawq( self.sword.image, self.sword.frameQuad, self.sword.x - camera.x, self.sword.y - camera.y )
+    end
 end
 
 function player:ThrowSword()
@@ -148,10 +148,4 @@ function player:ThrowSword()
         self.sword.y = self.y
         self.sword.life = self.sword.maxLifetime
     end
-end
-
-function UpdateScreenOffset()
-    -- Player should be in the center of the screen
-    viewOffset.x = player.x + (player.width / 2) - (love.graphics.getWidth() / 2)
-    viewOffset.y = player.y + (player.height / 2) - (love.graphics.getHeight() / 2)
 end

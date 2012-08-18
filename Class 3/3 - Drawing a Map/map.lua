@@ -5,17 +5,13 @@
 
 require "GeneratedMap"
 require "tileset"
+require "camera"
 
 mapProperties = {
     maximum = {
         x = 800*2,
         y = 800*2
     },
-}
-
-viewOffset = { 
-	x = 0,
-	y = 0
 }
 
 function SetupMap()
@@ -64,6 +60,6 @@ end
 function DrawMap()
 	love.graphics.setColor( 255, 255, 255, 255 )
 	for index, mapTile in pairs( map ) do
-		love.graphics.draw( mapTile.image, mapTile.x - viewOffset.x, mapTile.y - viewOffset.y )
+		love.graphics.draw( mapTile.image, mapTile.x - camera.x, mapTile.y - camera.y )
 	end
 end	

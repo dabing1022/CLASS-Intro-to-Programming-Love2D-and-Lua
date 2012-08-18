@@ -74,11 +74,8 @@ function DrawMap()
 	love.graphics.setColor( 255, 255, 255, 255 )
 	for index, mapTile in pairs( map ) do
         -- Only draw map if it's within the screen's viewable area
-        if ( mapTile.x > viewOffset.x - 32 and
-                mapTile.x < viewOffset.x + love.graphics.getWidth() and
-                mapTile.y > viewOffset.x - 32 and
-                mapTile.y < viewOffset.y + love.graphics.getHeight() ) then
-            love.graphics.draw( mapTile.image, mapTile.x - viewOffset.x, mapTile.y - viewOffset.y )
+        if ( camera:CoordinateIsVisible( mapTile.x, mapTile.y ) ) then
+            love.graphics.draw( mapTile.image, mapTile.x - camera.x, mapTile.y - camera.y )
         end
 	end
 end	
