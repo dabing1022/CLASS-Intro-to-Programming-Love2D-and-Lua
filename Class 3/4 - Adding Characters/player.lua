@@ -62,11 +62,12 @@ function player:Move( xMovement, yMovement )
 	dummyPlayer.y = dummyPlayer.y + yMovement
 	
     -- Check collision between tiles on map
-	if ( MapCollision( self ) == false ) then
+	if ( MapCollision( dummyPlayer ) == false ) then
 		self.x = dummyPlayer.x
 		self.y = dummyPlayer.y
         self:UpdateFrame()
         UpdateScreenOffset()
+    else
 	end
 end
 
