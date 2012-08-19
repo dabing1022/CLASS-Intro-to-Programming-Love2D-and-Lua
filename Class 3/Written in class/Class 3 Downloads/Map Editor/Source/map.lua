@@ -67,9 +67,9 @@ end
 --      }
 -- }
 
-function SaveMap() -- map.lua
+function SaveMap()
     filename = "GeneratedMap.lua" 
-    local file = io.open( filename, "w" )
+    file = io.open( filename, "w" )
     
     count = 1
     file:write( "map = {") -- Beginning of generated map table
