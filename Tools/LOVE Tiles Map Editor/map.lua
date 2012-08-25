@@ -5,6 +5,7 @@
 -- zlib license
 
 require "tileset"
+require "conf"
 
 map = {
 }
@@ -68,8 +69,7 @@ end
 -- }
 
 function SaveMap() -- map.lua
-    filename = "GeneratedMap.lua" 
-    local file = io.open( filename, "w" )
+    local file = io.open( config.mapSavePath.filepath .. config.mapSavePath.filename, "w" )
     
     count = 1
     file:write( "map = {") -- Beginning of generated map table
