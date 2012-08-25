@@ -5,7 +5,6 @@
 
 require "map"
 require "tileset"
-require "userinput"
 require "player"
 require "camera"
 require "enemies" 
@@ -23,7 +22,7 @@ end
 
 function love.update()
 	enemies:Update( player, player.sword )
-    userinput:GetInput()
+    player:GetInput()
     player:UpdateSword()
     camera:CenterCameraOn( player )
 	
