@@ -25,28 +25,6 @@
 
 collisionItems = {}
 
-function DebugPrint()
-	y = 0
-	for index, ob in pairs (collisionItems) do
-		love.graphics.setColor( 255, 255, 255, 255 )
-		love.graphics.print( "Object " .. index .. ": ", 0, y )
-		y = y + 15
-		love.graphics.print( "Object x, y, w, h: " .. ob.x .. "," .. ob.y .. "," .. ob.width .. "," .. ob.height, 10, y )
-		y = y + 15
-		love.graphics.print( "collision region x, y, w, h: " .. 
-			ob.collisionRegion.x .. "," .. ob.collisionRegion.y .. "," .. ob.collisionRegion.width .. "," .. ob.collisionRegion.height, 10, y )
-		y = y + 30
-		
-		love.graphics.setColor( 255, 255, 0, 255 )
-		-- Draw bounding rectangle
-		love.graphics.rectangle( "line", 
-			ob.x + ob.collisionRegion.x, ob.y + ob.collisionRegion.y, 
-			ob.collisionRegion.width,
-			ob.collisionRegion.height )
-	end
-	love.graphics.setColor( 255, 255, 255, 255 )
-end
-
 -- Sets up the quad for the image based on filepath
 -- CREATES:
 -- 	* Creates "collisionRegion{}", collisionRegion.x, collisionRegion.y,
@@ -177,4 +155,55 @@ function Collision( obj1, obj2 )
 	end
 	
 	return false
+end
+
+function WiderCollision( obj1, obj2 )
+	local dummyObject = {
+		x = obj1.x,
+		y = obj1.y,
+		collisionRegion = {
+			x = obj1.collisionRegion.x - 5,
+			y = obj1.collisionRegion.y - 5,
+			width = obj1.collisionRegion.width + 10,
+			height = obj1.collisionRegion.height + 10
+		}
+	}
+	local dummyObject2 = {
+		x = obj2.x,
+		y = obj2.y,
+		collisionRegion = {
+			x = obj2.collisionRegion.x - 5,
+			y = obj2.collisionRegion.y - 5,
+			width = obj2.collisionRegion.width + 10,
+			height = obj2.collisionRegion.height + 10
+		}
+	}
+	
+	return Collision( dummyObject, obj2 )
+end
+
+function DebugPrint( offsetX, offsetY )
+	y = 0
+	for index, ob in pairs (collisionItems) do
+		love.graphics.setColor( 255, 255, 255, 255 )
+		love.graphics.print( "Object " .. index .. 
+			" (" .. ob.x .. ", " .. ob.y .. ")", 0, y )
+		
+		love.graphics.setColor( 255, 255, 0, 255 )
+		-- Draw bounding rectangle
+		love.graphics.rectangle( "line", 
+			ob.x + ob.collisionRegion.x - offsetX, 
+			ob.y + ob.collisionRegion.y - offsetY, 
+			ob.collisionRegion.width,
+			ob.collisionRegion.height )
+			
+		love.graphics.setColor( 255, 0, 0, 255 )
+		-- Draw bounding rectangle
+		love.graphics.rectangle( "line", 
+			ob.x + ob.collisionRegion.x - offsetX - 5, 
+			ob.y + ob.collisionRegion.y - offsetY - 5, 
+			ob.collisionRegion.width + 10,
+			ob.collisionRegion.height + 10 )
+	end
+	love.graphics.setColor( 255, 255, 255, 255 )
 end
