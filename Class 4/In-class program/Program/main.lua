@@ -6,11 +6,16 @@
 --		"animatedSprite.lua" and
 --		"collisionObject.lua"
 
+-- Grab music from art.devsader.com
+-- Grab sound effect from the 
+-- "Sound effects" folder in
+-- the Class 4 Downloads
+
 require "animatedSprite"
 require "collisionObject"
 require "characters"
 
-function love.load()								-- LOAD!
+function love.load()	
 	-- Load the image for each character
 	LoadAnimatedSprite( player, "Coa.png" )
 	LoadAnimatedSprite( npc, "Elliot.png" )
@@ -18,25 +23,19 @@ function love.load()								-- LOAD!
 	-- Setup the characters as collidable objects
 	LoadCollidableObject( player, "feet" )
 	LoadCollidableObject( npc, "feet" )
+	
+	song = love.audio.newSource( "EgyptianDance_MerrillGrady.ogg", "stream" )
+	plop = love.audio.newSource( "Plopp_jh.mp3", "stream" )
+	
+	love.audio.play( song )
 end
 
 function love.update()								-- UPDATE!
-	-- Keyboard Input		
-	if 		( love.keyboard.isDown( "left" ) ) then
-		MoveCollidableObject( player, "west" )
-		
-	elseif 	( love.keyboard.isDown( "right" ) ) then
-		MoveCollidableObject( player, "east" )
+	UpdateCharacters()
 	
-	elseif 	( love.keyboard.isDown( "up" ) ) then
-		MoveCollidableObject( player, "north" )
-	
-	elseif 	( love.keyboard.isDown( "down" ) ) then
-		MoveCollidableObject( player, "south" )
+	if ( WiderCollision( player, npc ) ) then
+		love.audio.play( plop )
 	end
-	
-	UpdateAnimatedSprite( player )
-	UpdateAnimatedSprite( npc )
 end
 
 function love.draw()									-- DRAW!
