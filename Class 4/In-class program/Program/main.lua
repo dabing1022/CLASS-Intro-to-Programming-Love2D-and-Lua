@@ -11,35 +11,34 @@
 -- "Sound effects" folder in
 -- the Class 4 Downloads
 
-require "animatedSprite"
-require "collisionObject"
 require "characters"
+require "map"			
+require "tileset"
+require "camera"
 
 function love.load()	
-	-- Load the image for each character
-	LoadAnimatedSprite( player, "Coa.png" )
-	LoadAnimatedSprite( npc, "Elliot.png" )
-	
-	-- Setup the characters as collidable objects
-	LoadCollidableObject( player, "feet" )
-	LoadCollidableObject( npc, "feet" )
+	player:Load()
+	npc:Load()
 	
 	song = love.audio.newSource( "EgyptianDance_MerrillGrady.ogg", "stream" )
 	plop = love.audio.newSource( "Plopp_jh.mp3", "stream" )
 	
-	love.audio.play( song )
+	tileset:Setup()
+	SetupMap()
+	
+	--love.audio.play( song )
 end
 
-function love.update()								-- UPDATE!
-	UpdateCharacters()
+function love.update()								-- UPDATE!	
+	player:Update()
+	npc:Update()
 	
-	if ( WiderCollision( player, npc ) ) then
-		love.audio.play( plop )
-	end
+	camera:CenterCameraOn( player )
 end
 
 function love.draw()									-- DRAW!
-	DrawAnimatedSprite( player, 0, 0 )
-	DrawAnimatedSprite( npc, 0, 0 )
-	DebugPrint(0, 0) -- Output this to get the yellow rectangles!
+	DrawMap()
+	player:Draw()
+	npc:Draw()
+	--DebugPrint(camera.x, camera.y) -- Output this to get the yellow rectangles!
 end
